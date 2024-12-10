@@ -230,21 +230,50 @@ ryu |>
   coord_fixed()
 
 
+# 1210
+ryu |> 
+  ggplot(aes(x = pitch_type, y = after_stat(count))) +
+  geom_bar() +
+  geom_text(aes(label = after_stat(count)), stat = 'count')
 
+#
+read_csv("./rawdata/kbo_team_batting.csv", locale = locale(encoding = 'cp949')) |> 
+  as_tibble() -> team_batting
 
+# relocate
+team_batting |> 
+  filter(year %in% c(1982)) |> 
+  relocate(c(year, g), .before = 1)
 
+team_batting |> 
+  filter(year %in% c(1983)) |> 
+  #select(9:last_col())
+  select(last_col(),last_col(2))
 
+team_batting |> 
+  group_by(year) |> 
+  reframe(n = n()) |> #tail()
+  slice(1,c(n()-1:n()))
 
+mpg |> 
+  count(class, drv, fl) |>
+  slice(1,c(n()-3:n()))
+  
+team_batting |> 
+  count(year) |> 
+  slice(1,c(n()-5:n()))
 
+# .keep = 'used'
+team_batting |> 
+  filter(year > 2000) |> 
+  group_by(year) |> 
+  reframe(hr_mean = mean(hr), n = n()) |> 
+  mutate(hr_mean / n, .keep = 'used')
 
-
-
-
-
-
-
-
-
+# group = drop
+team_batting |> 
+  group_by(year) |> 
+  reframe(avg = sum(h)/sum(ab))
 
 
 
