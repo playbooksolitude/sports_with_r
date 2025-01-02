@@ -275,17 +275,55 @@ team_batting |>
   group_by(year) |> 
   reframe(avg = sum(h)/sum(ab))
 
+Animals
+MASS::Animals
+data(package = "MASS", Animals)
+Animals
+ data()
 
+data()
 
+# 팀 배팅 2번 ---
+team_batting |> 
+  tibble() |> 
+  mutate(
+  #transmute(
+    avg = h / ab, 
+         obp = (h + bb + hbp) / (ab+bb+hbp+sf), 
+         slg = (h + `2b` + 2 * `3b` + 3 * hr) / ab, 
+         ops = obp + slg, 
+         .before = g) |> 
+  filter(ops >= 0.7, hr < 70) |> 
+  #reframe(n = n())
+  tally()
+  
+?tally()
 
-
-
-
-
-
-
-
-
+# 
+team_batting |> 
+  tibble() |> 
+  mutate(
+    #transmute(
+    avg = h / ab, 
+    obp = (h + bb + hbp) / (ab+bb+hbp+sf), 
+    slg = (h + `2b` + 2 * `3b` + 3 * hr) / ab, 
+    ops = obp + slg, 
+    .before = g) |> 
+  filter(ops >= 0.7, hr < 70) |> 
+  filter(year >= 1991, year < 2001) |> 
+  transmute(year, team, rg = r / g, sb = sb / g)
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
 
 
