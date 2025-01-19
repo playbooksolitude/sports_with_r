@@ -8,8 +8,10 @@ read.csv("./rawdata/kbo_batting_qualified.csv") #아예 안열림
 
 ## 해결책 ---- 
 read.csv("./rawdata/kbo_batting_qualified.csv", fileEncoding = 'CP949')
-read_csv("./rawdata/kbo_batting_qualified.csv", locale = locale(encoding = 'cp949'))
-read_csv("./rawdata/kbo_batting_qualified.csv", locale = locale('ko', encoding = 'euc-kr'))
+read_csv("./rawdata/kbo_batting_qualified.csv", 
+         locale = locale(encoding = 'cp949'))
+read_csv("./rawdata/kbo_batting_qualified.csv", 
+         locale = locale('ko', encoding = 'euc-kr'))
 
 ### error ----
 read.csv("./rawdata/kbo_batting_qualified.csv", fileEncoding = 'UTF-8') #error
@@ -22,7 +24,8 @@ read.csv(file.choose(),fileEncoding = 'cp949')
 read_csv(file.choose(), locale = locale(encoding = 'cp949'))
 
 #2 변수 저장 ----
-read.csv("./rawdata/kbo_batting_qualified.csv", fileEncoding = 'CP949') -> batting
+read.csv("./rawdata/kbo_batting_qualified.csv", 
+         fileEncoding = 'CP949') -> batting
 batting
 
 #3 구조 파악 ----
@@ -51,16 +54,14 @@ mtcars
 sample_n(mtcars,5)
 mtcars[1,5]
 sample(mtcars[1,10],10)
-MASS::Animals
-library(MASS)
-Animals[3,1:2]
-sample(1:10, 2)
+#MASS::Animals
+#detach('package:MASS', unload = T)
 
 ## |> ----
 mtcars[sample(10,2),1:5]
 mtcars |> 
   sample_n(2) |> 
-  select(1:5)
+  dplyr::select(mpg, cyl)
 
 #
 view(mtcars)
@@ -73,6 +74,7 @@ mtcars |>
 #
 # geom_histogram() ----
 batting |> tibble() -> batting
+(batting |> tibble() -> batting)
 batting |> sample_n(10) |> gt::gt()
 batting |> 
   ggplot(aes(x = avg)) +
